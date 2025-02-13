@@ -14,8 +14,9 @@ if grep --silent '^You can find' <<< "$list"; then
 fi
 
 while ! grep --silent '^You can find' <<< "$list" && ((fzf_status == 0)); do
-    list="$(echo "$list"; echo '        0: up')"
-    selection="$(echo "$list" | grep -v '^$' | fzf --ansi --no-sort --reverse --header-lines 1 | sed -E 's/ +([0-9]+) *:.*/\1/')"
+    list="$(echo "$list" | grep -v '^$')"
+    list="$(echo "$list" | head -n 1; echo '        0: up'; echo "$list" | tail -n +2)"
+    selection="$(echo "$list" | fzf --ansi --no-sort --reverse --header-lines 1 | sed -E 's/ +([0-9]+) *:.*/\1/')"
     fzf_status=$?
     if [[ $selection == '0' ]]; then
         dodona up
@@ -24,3 +25,4 @@ while ! grep --silent '^You can find' <<< "$list" && ((fzf_status == 0)); do
     fi
     get_list
 done
+
