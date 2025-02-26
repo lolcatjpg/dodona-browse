@@ -16,12 +16,12 @@ fi
 while ! grep --silent '^You can find' <<< "$list" && ((fzf_status == 0)); do
     list="$(echo "$list" | grep -v '^$')"
     list="$(echo "$list" | head -n 1; echo '        0: up'; echo "$list" | tail -n +2)"
-    selection="$(echo "$list" | fzf --ansi --no-sort --reverse --header-lines 1 | sed -E 's/ +([0-9]+) *:.*/\1/')"
+    selection="$(echo "$list" | fzf --ansi --no-sort --reverse --header-lines 1 --preview 'dodona status' | sed -E 's/ +([0-9]+) *:.*/\1/')"
     fzf_status=$?
     if [[ $selection == '0' ]]; then
-        dodona up
+        dodona up > /dev/null
     elif [[ -n $selection ]]; then
-        dodona select "$selection"
+        dodona select "$selection" > /dev/null
     fi
     get_list
 done
