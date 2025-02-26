@@ -26,3 +26,5 @@ while ! grep --silent '^You can find' <<< "$list" && ((fzf_status == 0)); do
     get_list
 done
 
+grep --silent '^You can find' <<< "$list" && echo "$list"
+
