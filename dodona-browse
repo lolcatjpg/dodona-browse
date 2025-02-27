@@ -2,7 +2,7 @@
 set -o pipefail
 
 get_list() {
-    list="$(dodona display | sed -E 's/^ +//')"
+    list="$(dodona display | sed -E 's/(^|.\[..) *//')"
 }
 
 fzf_status=0
